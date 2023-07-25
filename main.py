@@ -1,5 +1,9 @@
+from utils.functions import *
+from utils.valida_cpf import *
+import getpass
 def main():
     cadastrados = []
+    validador = True
     print('Seja bem vindo(a) ao sistem de gerenciamento de carteira de ações da Nuclea.\nSelecione uma das opções abaixo')
 
     menu = '''
@@ -10,7 +14,7 @@ def main():
     5 - Sair
     Digite a opção desejada:'''
 
-    while True:
+    while validador:
         decision = input(menu)
         try:
             decision = int(decision)
@@ -22,14 +26,9 @@ def main():
             case 1:
                 cliente = cadastro()
                 cadastrados.append(cliente)
-
                 for cliente in cadastrados:
                     cliente.info()
-
-                sair = input('Deseja retornar ao menu principal?(S/N)')
-                if sair.upper() == 'N':
-                    break
-
+                validador = retorna_menu()
             case 5:
                 break
             case default:
@@ -39,14 +38,17 @@ def main():
 def cadastro():
 
     print('\nInforme os dados do cliente:')
-    nome = input('Nome:')
-    cpf = input('CPF:')
+    nome = formata_texto(input('Nome:'))
+    cpf = valida_cpf(input(f'CPF:'))
+
     rg = input('RG:')
     nascimento = input('Data de Nascimento:')
     cep = input('CEP:')
     numero = input('Numero da casa:')
     cliente = Cliente(nome,cpf,rg,nascimento,cep,numero)
     return cliente
+
+
 
 
 class Cliente:
