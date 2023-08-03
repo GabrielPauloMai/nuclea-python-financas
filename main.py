@@ -1,26 +1,17 @@
-from utils.functions import *
-from utils.valida_cpf import *
-import getpass
+from utils.functions import formata_texto, retorna_menu
+from utils.valida_cpf import valida_cpf
+from utils.valida_rg import valida_rg
+from utils.data import valida_data_nascimento
+
+
+clientes = []
+
 def main():
     cadastrados = []
     validador = True
     print('Seja bem vindo(a) ao sistem de gerenciamento de carteira de ações da Nuclea.\nSelecione uma das opções abaixo')
 
-    menu = '''
-    1 - Cadastrar cliente
-    2 - Cadastrar ação
-    3 - Realizar análise da carteira
-    4 - Imprimir relatório da carteira
-    5 - Sair
-    Digite a opção desejada:'''
 
-    while validador:
-        decision = input(menu)
-        try:
-            decision = int(decision)
-        except:
-            print('Valor inválido, tente novamente')
-            continue
 
         match decision:
             case 1:
@@ -38,11 +29,10 @@ def main():
 def cadastro():
 
     print('\nInforme os dados do cliente:')
-    nome = formata_texto(input('Nome:'))
-    cpf = valida_cpf(input(f'CPF:'))
-
-    rg = input('RG:')
-    nascimento = input('Data de Nascimento:')
+    nome = formata_texto()
+    cpf = valida_cpf()
+    rg = valida_rg()
+    nascimento = valida_data_nascimento()
     cep = input('CEP:')
     numero = input('Numero da casa:')
     cliente = Cliente(nome,cpf,rg,nascimento,cep,numero)
@@ -51,24 +41,27 @@ def cadastro():
 
 
 
-class Cliente:
-    def __init__(self, nome,cpf, rg,nascimento,cep, numero):
-        self.nome = nome
-        self.cpf = cpf
-        self.rg = rg
-        self.nascimento = nascimento
-        self.cep = cep
-        self.numero = numero
-
-    def info(self):
-        client_info = (f'\nNome:{self.nome}'
-                f'\nCpf:{self.cpf}'
-                f'\nRg:{self.rg}'
-                f'\nData de nascimento:{self.nascimento} '
-                f'\nCEP:{self.cep} '
-                f'\nNúmero da casa:{self.numero}\n')
-        print(client_info)
 
 
+
+def menu():
+    menu = '''
+    1 - Cadastrar cliente
+    2 - Cadastrar ação
+    3 - Realizar análise da carteira
+    4 - Imprimir relatório da carteira
+    5 - Sair
+    Digite a opção desejada:'''
+
+    while True:
+        decision = input(menu)
+        try:
+            decision = int(decision)
+        except ValueError as e:
+            print(f'Valor{decision} inválido, tente novamente')
+            continue
+        except Exception as e:
+            print(f'Erro desconhecido: {e}')
+            continue
 
 main()

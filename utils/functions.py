@@ -6,7 +6,8 @@ def retorna_menu():
         return True
 
 
-def formata_texto(texto):
+def formata_texto():
+    texto = input('Nome:')
     nome_formatado = texto.title()
     return nome_formatado
 
