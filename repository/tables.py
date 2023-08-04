@@ -11,12 +11,8 @@ class Base(DeclarativeBase):
         datetime.date: Date,
         bool: Boolean,
         float: Float(10,2),
-
-
-
     }
-    pass
-class Client(Base):
+class Cliente(Base):
     __tablename__ = 'cliente'
     id: Mapped[int] = mapped_column(primary_key=True,autoincrement=True)
     nome: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -31,7 +27,7 @@ class Client(Base):
         return f"Cliente(nome={self.nome}, cpf={self.cpf}, rg={self.rg}, data_nascimento={self.data_nascimento}, endereco={self.endereco}, criado_em={self.criado_em}, atualizado_em={self.atualizado_em})"
 
 class Address(Base):
-    __tablename__ = 'endereco':
+    __tablename__ = 'endereco'
     id:Mapped[int] = mapped_column(primary_key=True,autoincrement=True)
     cep: Mapped[str] = mapped_column(String(9), nullable=False)
     logradouro: Mapped[str] = mapped_column(String(100), nullable=True)
