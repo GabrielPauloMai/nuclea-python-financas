@@ -1,19 +1,20 @@
 from models.Base import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import ForeignKey
 
 
 class Endereco(Base):
     __tablename__ = 'endereco'
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
-    cep: Mapped[str] = mapped_column(length=9)
-    logradouro: Mapped[str] = mapped_column(length=100, nullable=True)
-    complemento: Mapped[str] = mapped_column(length=100, nullable=True)
-    bairro: Mapped[str] = mapped_column(length=100, nullable=True)
-    cidade: Mapped[str] = mapped_column(length=100, nullable=False)
-    estado: Mapped[str] = mapped_column(length=2, nullable=False)
-    numero_residencia: Mapped[str] = mapped_column(length=10, nullable=True)
+    cep: Mapped[str]
+    logradouro: Mapped[str]
+    complemento: Mapped[str]
+    bairro: Mapped[str]
+    cidade: Mapped[str]
+    estado: Mapped[str]
+    numero_residencia: Mapped[str]
     cliente_id: Mapped[int] = mapped_column(ForeignKey("cliente.id"))
+    cliente = relationship("Cliente", back_populates="enderecos")
 
     def __repr__(self):
         return f"Endereco(cep={self.cep}, logradouro={self.logradouro}, complemento={self.complemento}," \

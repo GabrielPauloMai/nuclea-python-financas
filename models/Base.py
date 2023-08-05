@@ -7,6 +7,6 @@ class Base(DeclarativeBase):
         datetime: DateTime,
         date: Date,
         bool: Boolean,
-        float: Float(precision=10,scale=2),
+        float: Float(10,2),
         str: String()
     }
