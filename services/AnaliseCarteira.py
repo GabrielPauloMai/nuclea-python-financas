@@ -20,6 +20,9 @@ class AnaliseCarteira:
             return (f'Cliente não encontrado')
         for acao in self.cliente.acoes:
             self.lista.append(f'{acao.ticket}.SA')
+        if len(self.lista) == 0:
+            print ('Cliente não possui ações cadastradas')
+            return False
         print('Informe o período de data desejado')
         self.datas = valida_datas()
 
@@ -40,6 +43,9 @@ class AnaliseCarteira:
 
 
     def Show_analise(self):
-        self.get_infos()
-        self.get_cotacoes()
-        return True
+        resultado = self.get_infos()
+        if resultado:
+            self.get_cotacoes()
+            return True
+        else:
+            return False
