@@ -52,7 +52,7 @@ class Cliente_BD:
 
     def atualizar_cliente(self, cliente):
         try:
-            update_query = update(Cliente).where(Cliente.id == cliente.id).values(
+            update_query = update(Cliente).where(Cliente.cpf == cliente.cpf).values(
                 nome=cliente.nome,
                 cpf=cliente.cpf,
                 rg=cliente.rg,
@@ -72,21 +72,23 @@ class Cliente_BD:
             self.session.close()
 
     def deletar_cliente(self, cliente):
-        delete_query = delete(Cliente).where(Cliente.id == cliente.id)
+        delete_query = delete(Cliente).where(Cliente.cpf == cliente.cpf)
         try:
             self.session.begin()
             self.session.execute(delete_query)
             self.session.commit()
             print('Cliente deletado com sucesso!')
+            return True
         except Exception as e:
             print('Erro ao deletar cliente!')
             print(e)
             self.session.rollback()
+            return False
         finally:
             self.session.close()
 
     def buscar_cliente_por_id(self, cliente):
-        select_query = select(Cliente).whereclause(Cliente == cliente.id)
+        select_query = select(Cliente).where(Cliente.id == cliente.id)
         teste = select_query.compile()
         try:
             print(select_query)

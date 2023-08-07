@@ -33,6 +33,8 @@ class ClienteServices:
 
         if not self.cliente_bd.verifica_cpf(cpf):
             print(f'Já existe cliente com o cpf {cpf} cadastrado, tente novamente com'
+                    f' outro cpf ou atualize o existente!')
+            return(f'Já existe cliente com o cpf {cpf} cadastrado, tente novamente com'
                   f' outro cpf ou atualize o existente!')
         else:
             pass
@@ -57,6 +59,7 @@ class ClienteServices:
                 print(f'Endereço:\nCEP: {endereco.cep}\nLogradouro: {endereco.logradouro}\n Complemento:{endereco.complemento}'
                       f'\nBairro: {endereco.bairro}\nCidade: {endereco.cidade}\nEstado: {endereco.estado}\n'
                       f'Número da casa: {endereco.numero_residencia}\n')
+                return (f'Informações do cliente: {cliente.nome}\nCPF: {cliente.cpf}')
         else:
             print(f'Não existe cliente com o cpf {cpf} cadastrado!')
 
@@ -68,9 +71,9 @@ class ClienteServices:
             for cliente in lista_clientes:
                 cliente = cliente._data[0]
                 print(f'| {cliente.id:4} | {cliente.nome:<20} | {cliente.cpf:<14} | {cliente.rg:<12} | {cliente.data_nascimento.strftime("%d/%m/%Y"):<10} |')
-            return True
+            return (f'Clientes listados com sucesso!')
         else:
-            print('Não existem clientes cadastrados!')
+            return('Não existem clientes cadastrados!')
 
 
     def alterar_cliente(self):
@@ -98,6 +101,7 @@ class ClienteServices:
 
             self.cliente_bd.atualizar_cliente(cliente)
             print(f'\nCliente {cliente.nome} atualizado com sucesso!\n')
+            return (f'Cliente {cliente.nome} atualizado com sucesso!')
         else:
             print(f'Não existe cliente com o cpf {cpf} cadastrado!')
 
@@ -123,9 +127,18 @@ class ClienteServices:
                     continue
 
             if decision == 1:
-                self.endereco_service.deletar_endereco(cliente)
-                self.cliente_bd.deletar_cliente(cliente)
-                print(f'\nCliente {cliente.nome} deletado com sucesso!\n')
+                resultado = self.endereco_service.deletar_endereco(cliente)
+                if resultado:
+                    resultado = self.cliente_bd.deletar_cliente(cliente)
+                    if resultado:
+                        print(f'\nCliente {cliente.nome} deletado com sucesso!\n')
+                        return (f'\nCliente {cliente.nome} deletado com sucesso!\n')
+                    else:
+                        print(f'Erro ao deletar cliente!')
+                        return (f'Erro ao deletar cliente!')
+                else:
+                    print(f'Erro ao deletar cliente!')
+                    return (f'Erro ao deletar cliente!')
             else:
                 print(f'\nOperação cancelada!\n')
         else:

@@ -75,14 +75,15 @@ class Endereco_BD:
     def deletar_endereco(self, endereco):
         try:
             delete_query = delete(Endereco).where(Endereco.id == endereco)
-            print(delete_query, delete_query.compile().params)
             self.session.begin()
             self.session.execute(delete_query)
             self.session.commit()
             print('Endereço deletado com sucesso!')
+            return True
         except Exception as e:
             print('Erro ao deletar endereço!')
             print(e)
             self.session.rollback()
+            return False
         finally:
             self.session.close()

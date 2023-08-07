@@ -46,8 +46,11 @@ class Endereco_Service:
     def deletar_endereco(self, cliente):
         for endereco in cliente.enderecos:
             endereco_id = endereco.id
-            self.endereco_bd.deletar_endereco(endereco_id)
-        return True
+            resultado = self.endereco_bd.deletar_endereco(endereco_id)
+            if resultado:
+                return True
+            else:
+                return False
 
 
 

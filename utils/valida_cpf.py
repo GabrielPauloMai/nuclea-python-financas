@@ -14,5 +14,9 @@ def gera_cpf():
     cpf = CPF()
     return cpf.generate()
 
+def formata_cpf(valor):
+    cpf = CPF()
+    return cpf.mask(valor)
+
 if __name__ == '__main__':
     valida_cpf()
