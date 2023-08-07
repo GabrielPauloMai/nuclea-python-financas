@@ -22,13 +22,13 @@ class Cliente_BD:
             data_nascimento=cliente.data_nascimento,
             criado_em=datetime.now(),
             atualizado_em=datetime.now()
-        )
-
+        ).returning(cliente.__table__.c.id)
         try:
             self.session.begin()
-            self.session.execute(insert_query)
+            id_cliente = self.session.execute(insert_query)
             self.session.commit()
-            print('Usuário cadastrado com sucesso!')
+            id_cliente = id_cliente.fetchone()[0]
+            return id_cliente
         except Exception as e:
             print('Erro ao cadastrar usuário!')
             error = e.__cause__
@@ -42,8 +42,8 @@ class Cliente_BD:
         try:
             select_query = select(Cliente)
             result = self.session.execute(select_query)
-            for row in result:
-                print(row)
+            lista_clientes = result.fetchall()
+            return lista_clientes
         except Exception as e:
             print('Erro ao listar clientes!')
             print(e)
@@ -82,5 +82,65 @@ class Cliente_BD:
             print('Erro ao deletar cliente!')
             print(e)
             self.session.rollback()
+        finally:
+            self.session.close()
+
+    def buscar_cliente_por_id(self, cliente):
+        select_query = select(Cliente).whereclause(Cliente == cliente.id)
+        teste = select_query.compile()
+        try:
+            print(select_query)
+            result = self.session.execute(select_query)
+            for row in result:
+                print(row)
+        except Exception as e:
+            print('Erro ao buscar cliente!')
+            print(e)
+        finally:
+            self.session.close()
+
+    def verifica_cpf(self, cpf):
+        select_query = select(Cliente.id).where(Cliente.cpf == cpf)
+        try:
+            self.session.begin()
+            result = self.session.execute(select_query)
+            result = result.fetchall()
+            if len(result) == 0:
+                self.session.close()
+                return True
+            else:
+                self.session.close()
+                return False
+        except Exception as e:
+            print('Erro ao verificar cliente!')
+            print(e)
+            return False
+        finally:
+            self.session.close()
+
+    def buscar_cliente(self, cpf):
+        select_query = select(Cliente).where(Cliente.cpf == cpf)
+        try:
+            self.session.begin()
+            result = self.session.execute(select_query)
+            result = result.fetchone()
+            for row in result:
+                return row
+        except Exception as e:
+            print('Erro ao buscar cliente!')
+            print(e)
+        finally:
+            self.session.close()
+
+    def lista_ultimo_cliente(self):
+        try:
+            select_query = select(Cliente).where(Cliente.id == Cliente.id)
+            result = self.session.execute(select_query)
+            result = result.fetchone()
+            for row in result:
+                return row
+        except Exception as e:
+            print('Erro ao listar cliente!')
+            print(e)
         finally:
             self.session.close()
