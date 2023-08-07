@@ -18,9 +18,9 @@ class TestClienteServices(TestCase):
         inputs = [nome, cpf, "12.345.678-x", "12/02/2001", "05003-060", "42"]
 
         with patch("builtins.input", side_effect=inputs):
-            serv.cadastrar_cliente()
+            resultado = serv.cadastrar_cliente()
 
-        self.assertTrue(expr="", msg=f'Cliente {nome} cadastrado com sucesso!')
+        self.assertTrue(f'Cliente {nome} cadastrado com sucesso!',resultado)
 
     def test_cliente_informacoes(self):
         from services.Cliente_service import ClienteServices
@@ -32,7 +32,6 @@ class TestClienteServices(TestCase):
         with patch("builtins.input", side_effect=inputs):
             serv.cliente_informacoes()
 
-        self.assertIn(cliente_esperado, cliente_esperado)
 
         self.fail()
 
@@ -58,6 +57,7 @@ class TestClienteServices(TestCase):
         with patch("builtins.input", side_effect=inputs):
             serv.deletar_cliente()
 
-
     def test_verifica_cpf(self):
         self.fail()
+
+

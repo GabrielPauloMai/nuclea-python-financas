@@ -40,8 +40,7 @@ class ClienteServices:
         self.cliente.id = self.cliente_bd.cadastrar_cliente(cliente)
         self.endereco_service.cadastrar_endereco(cliente, cliente_cep=cep, numero=numero)
         print(f'\nCliente {cliente.nome} cadastrado com sucesso!\n')
-
-        return True
+        return (f'\nCliente {cliente.nome} cadastrado com sucesso!\n')
     def verifica_cpf(self, cpf):
 
         return self.cliente_bd.buscar_cliente(cpf)

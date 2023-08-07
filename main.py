@@ -6,8 +6,11 @@ def main():
     validador = True
     print('Seja bem vindo(a) ao sistem de gerenciamento de carteira de ações da Nuclea.'
           '\nSelecione uma das opções abaixo')
+    
     while validador:
+
         decision = menu()
+        
         match decision:
             case 1:
                 ClienteServices().menu_cliente()
@@ -24,6 +27,7 @@ def main():
                 break
             case default:
                 print(f'Valor inválido, tente novamente')
+
         pergunta = input('Deseja continuar neste menu? Tecle S para continuar ou qualquer outra tecla para sair')
         if pergunta.upper() == 'S':
             pass
