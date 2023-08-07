@@ -14,16 +14,14 @@ class AnaliseCarteira:
 
     def get_infos(self):
         print('Informe o cliente desejado')
-        # cpf = valida_cpf()
-        cpf = '147.832.334-54'
+        cpf = valida_cpf()
         self.cliente = self.cliente.verifica_cpf(cpf=cpf)
         if not self.cliente:
             return (f'Cliente não encontrado')
         for acao in self.cliente.acoes:
             self.lista.append(f'{acao.ticket}.SA')
         print('Informe o período de data desejado')
-        #self.datas = valida_datas()
-        self.datas = ['2020-01-01', '2023-01-01']
+        self.datas = valida_datas()
 
     def get_cotacoes(self):
         df = pd.DataFrame()

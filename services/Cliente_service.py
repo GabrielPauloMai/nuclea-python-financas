@@ -145,7 +145,8 @@ class ClienteServices:
                     self.alterar_cliente()
                 case 5:
                     self.deletar_cliente()
-
+                case 0:
+                    break
                 case default:
                     print(f'Valor inválido, tente novamente')
                     break

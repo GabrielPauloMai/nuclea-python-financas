@@ -11,6 +11,7 @@ def main():
         match decision:
             case 1:
                 ClienteServices().menu_cliente()
+                continue
             case 2:
                 Acao_service().cadastar_acao()
             case 3:
@@ -23,11 +24,11 @@ def main():
                 break
             case default:
                 print(f'Valor inválido, tente novamente')
-        input('Deseja continuar neste menu? Tecle S para continuar ou qualquer outra tecla para sair')
-        if input().upper() == 'S':
-            continue
+        pergunta = input('Deseja continuar neste menu? Tecle S para continuar ou qualquer outra tecla para sair')
+        if pergunta.upper() == 'S':
+            pass
         else:
-            break
+            continue
 
 
 def menu():
